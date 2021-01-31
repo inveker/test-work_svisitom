@@ -1,24 +1,21 @@
 <template>
-  <MainLayout>
-    <form action="">
-      <legend>Login</legend>
+  <form action="">
+    <legend>Login</legend>
 
-      <LabelPlaceholder placeholder="Username" :active="username.length" class="placeholder">
-        <input v-model="username" type="text" name="username" required>
-      </LabelPlaceholder>
+    <VLabelPlaceholder placeholder="Username" :active="username.length" class="placeholder">
+      <input v-model="username" type="text" name="username" required>
+    </VLabelPlaceholder>
 
-      <LabelPlaceholder placeholder="Password" :active="password.length" class="placeholder">
-        <input v-model="password" name="password" type="password" required/>
-      </LabelPlaceholder>
+    <VLabelPlaceholder placeholder="Password" :active="password.length" class="placeholder">
+      <input v-model="password" name="password" type="password" required/>
+    </VLabelPlaceholder>
 
-      <input type="submit">
-    </form>
-  </MainLayout>
+    <input type="submit" value="Enter">
+  </form>
 </template>
 
 <script>
-import LabelPlaceholder from "../components/ui/LabelPlaceholder.vue";
-import MainLayout from "../layouts/Main.vue";
+import VLabelPlaceholder from "../components/ui/VLabelPlaceholder.vue";
 
 export default {
   data() {
@@ -28,8 +25,7 @@ export default {
     };
   },
   components: {
-    LabelPlaceholder,
-    MainLayout
+    VLabelPlaceholder,
   }
 }
 </script>
@@ -41,7 +37,6 @@ export default {
     padding: 20px;
     border-radius: 5px;
     margin: 0 auto;
-    text-align: left;
   }
   legend {
     font-size: 21px;

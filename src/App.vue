@@ -1,29 +1,8 @@
 <template>
-  <component :is="ViewComponent" />
+  <div class="position">
+    <router-view/>
+  </div>
 </template>
-
-<script>
-const routes = {
-  '/': 'Auth',
-}
-
-export default {
-  data() {
-    return {
-      currentRoute: window.location.pathname
-    };
-  },
-  computed: {
-    ViewComponent() {
-      const matchingView = routes[this.currentRoute]
-      console.log('./pages/' + matchingView + '.vue')
-      return matchingView
-          ? () => import('./pages/' + matchingView + '.vue')
-          : () => import('./pages/404.vue')
-    }
-  }
-};
-</script>
 
 <style>
   html {
@@ -32,5 +11,17 @@ export default {
   body {
     margin: 0;
     height: 100%;
+    background: linear-gradient(to right, #5acafd, #458ef4);
+    font-family: sans-serif;
+  }
+</style>
+
+<style scoped>
+  .position {
+    display: inline-block;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
   }
 </style>

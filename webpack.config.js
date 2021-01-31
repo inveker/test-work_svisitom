@@ -5,6 +5,10 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: './src/main.js',
+    output: {
+        path: __dirname + "/dist",
+        filename: "[name].js"
+    },
     module: {
         rules: [
             { test: /\.js$/, use: 'babel-loader' },
@@ -13,7 +17,10 @@ module.exports = {
         ]
     },
     devServer: {
+        host: '0.0.0.0',
+        port: '8082',
         hot: true,
+        historyApiFallback: true
     },
     plugins: [
         new HtmlWebpackPlugin({

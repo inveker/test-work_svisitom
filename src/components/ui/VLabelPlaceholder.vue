@@ -25,10 +25,12 @@ export default {
   label {
     position: relative;
     padding-top: .7em;
+    cursor: text;
   }
   span {
     position: absolute;
     transition: .2s;
+    user-select: none;
   }
   .active,
   label:focus-within span {
