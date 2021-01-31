@@ -11,6 +11,7 @@
     </VLabelPlaceholder>
 
     <input type="submit" value="Enter">
+    <div class="error" v-if="loginError">{{ loginError }}</div>
   </form>
 </template>
 
@@ -23,6 +24,11 @@ export default {
       username: '',
       password: '',
     };
+  },
+  computed: {
+    loginError() {
+      return this.$store.getters['auth/error'];
+    }
   },
   beforeMount() {
     this.$store.dispatch('auth/logout');
@@ -49,21 +55,30 @@ export default {
     border-radius: 5px;
     margin: 0 auto;
   }
+
   legend {
     font-size: 21px;
     padding: 0;
     text-align: center;
     margin-bottom: 20px;
   }
+
   .placeholder {
     display: block;
     margin-bottom: 20px;
   }
+
   input[type="password"],
   input[type="text"] {
     outline: none;
     border: none;
     border-bottom: 1px solid #000;
     padding: 5px;
+  }
+
+  .error {
+    margin-top: 10px;
+    color: #f00;
+    font-size: .7em;
   }
 </style>

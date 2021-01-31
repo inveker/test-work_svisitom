@@ -1,32 +1,52 @@
 <template>
-  <VTable
-      :heroes="rows"
-      :columns="gridColumns"
-  />
+  <div>
+    <VPopupWrapper v-if="editItem"
+                   @close="closePopup"
+    >
+      <VEdit @save="saveEdit"
+             :initial-value="editItem[editKey]"
+             :placeholder="gridColumns[editKey].caption"
+      />
+    </VPopupWrapper>
+    <VTable
+        :heroes="rows"
+        :columns="gridColumns"
+    />
+
+  </div>
 </template>
 
 <script>
-import VTable from "../components/ui/VTable.vue";
 
 export default {
   data() {
     return {
+      editItem: null,
+      editKey: null,
+      multiEdit: [],
       gridColumns: {
         number: {
           caption: '№',
-          action: (selected) => console.log(selected)
         },
         name: {
           caption: 'Name',
-          action: () => console.log('a')
+          action: (e, row, key, selected) => {
+            console.log(e)
+            this.editItem = row;
+            this.editKey = key;
+          }
         },
         date: {
           caption: 'Date',
-          action: () => console.log('a')
         },
         status: {
           caption: 'Status',
-          action: () => console.log('a')
+          action: (e, row, key, selected) => {
+            this.multiEdit = selected;
+
+            this.editItem = row;
+            this.editKey = key;
+          }
         }
       },
     }
@@ -36,12 +56,27 @@ export default {
       return this.$store.state.table.rows;
     }
   },
+  methods: {
+    saveEdit(value) {
+      if(this.multiEdit.length) {
+        console.log('m',this.multiEdit)
+        for(let i = 0; i < this.multiEdit.length; i++)
+          this.$store.dispatch('table/update', {number: this.multiEdit[i], [this.editKey]: value});
+        this.multiEdit = null;
+
+      } else {
+        this.$store.dispatch('table/update', {number: this.editItem.number, [this.editKey]: value});
+      }
+      this.editItem = null;
+    },
+    closePopup() {
+      this.editItem = null;
+    }
+  },
   components: {
-    VTable
+    VTable: () => import('../components/ui/VTable.vue'),
+    VEdit: () => import('../components/ui/VEdit.vue'),
+    VPopupWrapper: () => import('../components/ui/VPopupWrapper.vue')
   }
 }
 </script>
-
-<style scoped>
-
-</style>

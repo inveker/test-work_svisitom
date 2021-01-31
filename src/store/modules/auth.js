@@ -1,35 +1,36 @@
+import {getCookie} from "../../utils/cookie";
+
 
 
 export default {
     namespaced: true,
     state: () => ({
         token: getCookie('token') || '',
-        status: '',
+        error: ''
     }),
     getters: {
         isAuthenticated: state => Boolean(state.token),
-        authStatus: state => state.status,
+        error: state => state.error,
     },
     mutations: {
-        AUTH_SUCCESS: (state, token) => {
-            state.status = 'success'
-            state.token = token
+        success: (state, token) => {
+            state.token = token;
         },
-        AUTH_ERROR: (state) => {
-            state.status = 'error'
+        error: (state, error) => {
+            state.error = error;
         },
     },
     actions: {
-        request: ({commit, dispatch}, user) => {
-            return new Promise((resolve, reject) => { // The Promise used for router redirect in login
-                if(user.username == 'root' && user.password == 'root') {
+        request: ({commit, dispatch}, {username, password}) => {
+            return new Promise((res, rej) => {
+                if(username == 'root' && password == 'root') {
                     const token = 111
-                    document.cookie = 'token='+token
-                    commit('AUTH_SUCCESS', token)
-                    resolve();
+                    document.cookie = 'token='+token+'; max-age=3600';
+                    commit('success', token)
+                    res();
                 } else {
-                    commit('AUTH_ERROR');
-                    reject();
+                    commit('error', 'Incorrect login or password');
+                    rej();
                 }
             })
         },
@@ -37,11 +38,4 @@ export default {
             document.cookie = 'token=';
         }
     }
-}
-
-function getCookie(name) {
-    let matches = document.cookie.match(new RegExp(
-        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-    ));
-    return matches ? decodeURIComponent(matches[1]) : undefined;
 }

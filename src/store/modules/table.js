@@ -1,3 +1,4 @@
+import Vue from 'vue'
 
 
 export default {
@@ -9,33 +10,36 @@ export default {
             {number: 2, name: 'Name3', date: '2021', status: 'of'},
             {number: 3, name: 'Name4', date: '2021', status: 'on'},
             {number: 4, name: 'Name5', date: '2021', status: 'on'},
+            {number: 5, name: 'Name1', date: '2021', status: 'on'},
+            {number: 6, name: 'Name2', date: '2021', status: 'of'},
+            {number: 7, name: 'Name3', date: '2021', status: 'of'},
+            {number: 8, name: 'Name4', date: '2021', status: 'on'},
+            {number: 9, name: 'Name5', date: '2021', status: 'on'},
+            {number: 10, name: 'Name1', date: '2021', status: 'on'},
+            {number: 11, name: 'Name2', date: '2021', status: 'of'},
+            {number: 12, name: 'Name3', date: '2021', status: 'of'},
+            {number: 13, name: 'Name4', date: '2021', status: 'on'},
+            {number: 14, name: 'Name5', date: '2021', status: 'on'},
+            {number: 15, name: 'Name1', date: '2021', status: 'on'},
+            {number: 16, name: 'Name2', date: '2021', status: 'of'},
+            {number: 17, name: 'Name3', date: '2021', status: 'of'},
+            {number: 18, name: 'Name4', date: '2021', status: 'on'},
+            {number: 19, name: 'Name5', date: '2021', status: 'on'},
+            {number: 20, name: 'Name1', date: '2021', status: 'on'},
         ]
     }),
-    getters: {
-        isAuthenticated: state => Boolean(state.token),
-        authStatus: state => state.status,
-    },
     mutations: {
-        AUTH_SUCCESS: (state, token) => {
-            state.status = 'success'
-            state.token = token
-        },
-        AUTH_ERROR: (state) => {
-            state.status = 'error'
-        },
+        update(state, newItem) {
+            for(let i = 0; i < state.rows.length; i++)
+                if(state.rows[i].number == newItem.number)
+                    state.rows[i] = Object.assign(state.rows[i], newItem)
+        }
     },
     actions: {
-        AUTH_REQUEST: ({commit, dispatch}, user) => {
-            return new Promise((resolve, reject) => { // The Promise used for router redirect in login
-                if(user.username == 'root' && user.password == 'root') {
-                    const token = 111
-                    document.cookie = 'token='+token
-                    commit('AUTH_SUCCESS', token)
-                    resolve();
-                } else {
-                    commit('AUTH_ERROR');
-                    reject();
-                }
+        update({commit}, newItem) {
+            return new Promise((res, rej) => {
+                commit('update', newItem);
+                res();
             })
         }
     }

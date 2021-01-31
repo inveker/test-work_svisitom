@@ -1,6 +1,8 @@
 <template>
-  <div class="position">
-    <router-view/>
+  <div class="wrapper">
+    <div class="position">
+      <router-view/>
+    </div>
   </div>
 </template>
 
@@ -17,11 +19,12 @@
 </style>
 
 <style scoped>
+  .wrapper {
+    margin-top: 20px;
+    text-align: center;
+  }
   .position {
     display: inline-block;
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    text-align: left;
   }
 </style>

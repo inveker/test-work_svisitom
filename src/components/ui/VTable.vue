@@ -18,7 +18,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr v-for="row in rows">
+    <tr v-for="row in rows" ref="rowsRef">
       <td>
         <input type="checkbox"
                :value="row.number"
@@ -27,7 +27,7 @@
         >
       </td>
       <td v-for="(value, key) in columns"
-          @click="value.action(selected)"
+          @click="e => value.action && value.action(e, row, key, selected)"
       >
         {{row[key]}}
       </td>
@@ -85,6 +85,9 @@ export default {
     onChangeAllCheckbox(e) {
       this.selected = e.target.checked ? [...this.heroes.keys()] : [];
       console.log(this.selected)
+    },
+    click() {
+
     }
   }
 }
