@@ -1,5 +1,5 @@
 <template>
-  <form action="">
+  <form @submit.prevent="login">
     <legend>Login</legend>
 
     <VLabelPlaceholder placeholder="Username" :active="username.length" class="placeholder">
@@ -24,6 +24,17 @@ export default {
       password: '',
     };
   },
+  beforeMount() {
+    this.$store.dispatch('auth/logout');
+  },
+  methods: {
+    login() {
+      const { username, password } = this
+      this.$store.dispatch('auth/request', { username, password }).then(() => {
+        this.$router.push('/table')
+      })
+    }
+  },
   components: {
     VLabelPlaceholder,
   }
@@ -34,7 +45,7 @@ export default {
   form {
     background-color: #fff;
     display: inline-block;
-    padding: 20px;
+    padding: 20px 30px;
     border-radius: 5px;
     margin: 0 auto;
   }

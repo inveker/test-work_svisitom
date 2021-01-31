@@ -2,12 +2,17 @@
   <table class="table">
     <thead>
     <tr>
-      <th><input type="checkbox" v-model="allCheckbox"  @change="onChangeAllCheckbox"></th>
-      <th v-for="(value, key) in columns"
+      <th>
+        <input type="checkbox"
+               v-model="allCheckbox"
+               @change="onChangeAllCheckbox"
+        >
+      </th>
+      <th v-for="({caption}, key) in columns"
           @click="sortBy(key)"
           :class="{ active: sortKey == key }"
       >
-        {{ value }}
+        {{ caption }}
         <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'"></span>
       </th>
     </tr>
@@ -21,7 +26,9 @@
                @change="onChange"
         >
       </td>
-      <td v-for="(v, key) in columns">
+      <td v-for="(value, key) in columns"
+          @click="value.action(selected)"
+      >
         {{row[key]}}
       </td>
     </tr>
@@ -53,6 +60,7 @@ export default {
   computed: {
     allCheckbox: {
       get() {
+        console.log(this.selected,this.heroes)
         return this.selected.length === this.heroes.length;
       },
       set() {} //Fix computed v-model, property is set in this.onChangeAllCheckbox()

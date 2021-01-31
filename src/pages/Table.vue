@@ -1,6 +1,6 @@
 <template>
   <VTable
-      :heroes="gridData"
+      :heroes="rows"
       :columns="gridColumns"
   />
 </template>
@@ -12,18 +12,28 @@ export default {
   data() {
     return {
       gridColumns: {
-        number: '№',
-        name: 'Name',
-        date: 'Date',
-        status: 'Status'
+        number: {
+          caption: '№',
+          action: (selected) => console.log(selected)
+        },
+        name: {
+          caption: 'Name',
+          action: () => console.log('a')
+        },
+        date: {
+          caption: 'Date',
+          action: () => console.log('a')
+        },
+        status: {
+          caption: 'Status',
+          action: () => console.log('a')
+        }
       },
-      gridData: [
-        {number: 0, name: 'Name1', date: '2021', status: 'on'},
-        {number: 1, name: 'Name2', date: '2021', status: 'of'},
-        {number: 2, name: 'Name3', date: '2021', status: 'of'},
-        {number: 3, name: 'Name4', date: '2021', status: 'on'},
-        {number: 4, name: 'Name5', date: '2021', status: 'on'},
-      ]
+    }
+  },
+  computed: {
+    rows() {
+      return this.$store.state.table.rows;
     }
   },
   components: {
