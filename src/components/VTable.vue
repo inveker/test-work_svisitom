@@ -18,7 +18,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr v-for="row in rows" ref="rowsRef">
+    <tr v-for="row in rows" :class="{'not-select': selected.length && selected.indexOf(row.number) == -1}">
       <td>
         <input type="checkbox"
                :value="row.number"
@@ -36,8 +36,9 @@
   </table>
 </template>
 
-<script>
 
+
+<script>
 export default {
   props: {
     heroes: Array,
@@ -93,6 +94,8 @@ export default {
 }
 </script>
 
+
+
 <style scoped>
   .table {
     border: 1px solid #5acafd;
@@ -140,5 +143,11 @@ export default {
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
     border-top: 4px solid #fff;
+  }
+
+  .not-select td:not(:first-child) {
+    opacity: .5;
+    user-select: none;
+    pointer-events: none;
   }
 </style>

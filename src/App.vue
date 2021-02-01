@@ -6,10 +6,13 @@
   </div>
 </template>
 
+
+
 <style>
   html {
     height: 100%;
   }
+
   body {
     margin: 0;
     height: 100%;
@@ -18,11 +21,14 @@
   }
 </style>
 
+
+
 <style scoped>
   .wrapper {
     margin-top: 20px;
     text-align: center;
   }
+
   .position {
     display: inline-block;
     text-align: left;

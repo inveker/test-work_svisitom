@@ -5,6 +5,8 @@
   </label>
 </template>
 
+
+
 <script>
 export default {
   name: "LabelPlaceholder",
@@ -21,17 +23,21 @@ export default {
 }
 </script>
 
+
+
 <style scoped>
   label {
     position: relative;
     padding-top: .7em;
     cursor: text;
   }
+
   span {
     position: absolute;
     transition: .2s;
     user-select: none;
   }
+
   .active,
   label:focus-within span {
     transform: translateY(-100%);

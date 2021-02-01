@@ -15,9 +15,9 @@
   </form>
 </template>
 
-<script>
-import VLabelPlaceholder from "../components/ui/VLabelPlaceholder.vue";
 
+
+<script>
 export default {
   data() {
     return {
@@ -31,7 +31,8 @@ export default {
     }
   },
   beforeMount() {
-    this.$store.dispatch('auth/logout');
+    if(this.$store.getters['auth/isAuthenticated'])
+      this.$store.dispatch('auth/logout');
   },
   methods: {
     login() {
@@ -42,10 +43,12 @@ export default {
     }
   },
   components: {
-    VLabelPlaceholder,
+    VLabelPlaceholder: () => import('../components/VLabelPlaceholder.vue')
   }
 }
 </script>
+
+
 
 <style scoped>
   form {

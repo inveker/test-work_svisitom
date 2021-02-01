@@ -13,10 +13,10 @@ export default {
         error: state => state.error,
     },
     mutations: {
-        success: (state, token) => {
+        setToken(state, token) {
             state.token = token;
         },
-        error: (state, error) => {
+        setError(state, error) {
             state.error = error;
         },
     },
@@ -26,16 +26,17 @@ export default {
                 if(username == 'root' && password == 'root') {
                     const token = 111
                     document.cookie = 'token='+token+'; max-age=3600';
-                    commit('success', token)
+                    commit('setToken', token)
                     res();
                 } else {
-                    commit('error', 'Incorrect login or password');
+                    commit('setError', 'Incorrect login or password');
                     rej();
                 }
             })
         },
-        logout: () => {
-            document.cookie = 'token=';
+        logout: ({commit}) => {
+            document.cookie = 'token=; max-age=0';
+            commit('setToken', '');
         }
     }
 }

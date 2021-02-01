@@ -1,4 +1,4 @@
-import Vue from 'vue'
+
 
 
 export default {
@@ -29,18 +29,20 @@ export default {
         ]
     }),
     mutations: {
-        update(state, newItem) {
+        updateRow(state, newItem) {
             for(let i = 0; i < state.rows.length; i++)
-                if(state.rows[i].number == newItem.number)
-                    state.rows[i] = Object.assign(state.rows[i], newItem)
+                if(state.rows[i].number == newItem.number) {
+                    state.rows[i] = Object.assign(state.rows[i], newItem);
+                    break;
+                }
         }
     },
     actions: {
         update({commit}, newItem) {
             return new Promise((res, rej) => {
-                commit('update', newItem);
+                commit('updateRow', newItem);
                 res();
-            })
+            });
         }
     }
 }

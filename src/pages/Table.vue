@@ -4,6 +4,7 @@
                    @close="closePopup"
     >
       <VEdit @save="saveEdit"
+             :legend="editLegend"
              :initial-value="editItem[editKey]"
              :placeholder="gridColumns[editKey].caption"
       />
@@ -12,26 +13,25 @@
         :heroes="rows"
         :columns="gridColumns"
     />
-
   </div>
 </template>
 
-<script>
 
+
+<script>
 export default {
   data() {
     return {
       editItem: null,
       editKey: null,
-      multiEdit: [],
+      multiEditItems: [],
       gridColumns: {
         number: {
           caption: '№',
         },
         name: {
           caption: 'Name',
-          action: (e, row, key, selected) => {
-            console.log(e)
+          action: (e, row, key) => {
             this.editItem = row;
             this.editKey = key;
           }
@@ -42,10 +42,9 @@ export default {
         status: {
           caption: 'Status',
           action: (e, row, key, selected) => {
-            this.multiEdit = selected;
-
             this.editItem = row;
             this.editKey = key;
+            this.multiEditItems = selected;
           }
         }
       },
@@ -54,29 +53,38 @@ export default {
   computed: {
     rows() {
       return this.$store.state.table.rows;
+    },
+    editLegend() {
+      const {multiEditItems, editItem} = this;
+      const len = multiEditItems.length;
+
+      return 'Edit' + (len > 1 ? ' ('+len+' items)' : ' item №' + editItem.number)
     }
   },
   methods: {
     saveEdit(value) {
-      if(this.multiEdit.length) {
-        console.log('m',this.multiEdit)
-        for(let i = 0; i < this.multiEdit.length; i++)
-          this.$store.dispatch('table/update', {number: this.multiEdit[i], [this.editKey]: value});
-        this.multiEdit = null;
+      const {editItem, editKey, multiEditItems} = this;
 
-      } else {
-        this.$store.dispatch('table/update', {number: this.editItem.number, [this.editKey]: value});
-      }
-      this.editItem = null;
+      if(multiEditItems.length) {
+        for(let i = 0; i < multiEditItems.length; i++)
+          this.$store.dispatch('table/update', {number: multiEditItems[i], [editKey]: value});
+
+      } else
+        this.$store.dispatch('table/update', {number: editItem.number, [editKey]: value});
+
+      this.closePopup();
     },
     closePopup() {
       this.editItem = null;
+      this.editKey = null;
+      this.multiEditItems = [];
+
     }
   },
   components: {
-    VTable: () => import('../components/ui/VTable.vue'),
-    VEdit: () => import('../components/ui/VEdit.vue'),
-    VPopupWrapper: () => import('../components/ui/VPopupWrapper.vue')
+    VTable: () => import('../components/VTable.vue'),
+    VEdit: () => import('../components/VEdit.vue'),
+    VPopupWrapper: () => import('../components/VPopupWrapper.vue')
   }
 }
 </script>

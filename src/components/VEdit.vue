@@ -1,5 +1,6 @@
 <template>
   <form class="form" @submit.prevent="save">
+    <legend>{{ legend }}</legend>
     <label>
       <span>{{ placeholder }}:</span>
       <input class="input" type="text" v-model="value">
@@ -8,9 +9,15 @@
   </form>
 </template>
 
+
+
 <script>
 export default {
   props: {
+    legend: {
+      type: String,
+      required: true,
+    },
     initialValue: {
       type: String,
       required: true
@@ -33,6 +40,8 @@ export default {
 }
 </script>
 
+
+
 <style scoped>
   .form {
     margin: 0;
@@ -40,9 +49,15 @@ export default {
     background-color: #fff;
     border-radius: 5px;
   }
+
+  .form legend {
+    margin-bottom: 20px;
+  }
+
   .input {
     margin-bottom: 5px;
   }
+
   .submit {
     margin-top: 5px;
   }

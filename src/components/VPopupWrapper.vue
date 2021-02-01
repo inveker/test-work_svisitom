@@ -1,3 +1,5 @@
+<!--Not use in relative/absolute/fixed position el-->
+
 <template>
   <div @click="click" class="wrapper">
     <div @click.stop class="position">
@@ -5,6 +7,8 @@
     </div>
   </div>
 </template>
+
+
 
 <script>
 export default {
@@ -15,6 +19,8 @@ export default {
   }
 }
 </script>
+
+
 
 <style scoped>
   .wrapper {
