@@ -50,6 +50,9 @@ export default {
       },
     }
   },
+  beforeMount() {
+    this.$store.dispatch('table/fetchRows');
+  },
   computed: {
     rows() {
       return this.$store.state.table.rows;
